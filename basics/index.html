@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- 
+        Section of the web which has an ID that is mounted by Vue and it is the only section of the web page 
+        that will be controlled by view
+    -->
+    <div id="app" class="container">
+        <div class="row">
+            <div class="col mt-4">
+                {{ message }}
+                <br>
+                <!-- {{ fish }} -->
+                <!-- {{fishType}} -->
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mt-3 mb-3">
+                        <label for="message-input" class="form-label"> Message </label>
+                        <!-- 
+                            Binding Feature (v-model directive)
+                            to bind data retrieved from server say a json file to what is displayed in the form 
+                            v-model directive
+                        -->
+                        <input
+                            v-model="message"
+                            type="text"
+                            class="form-control"
+                            id="message-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!-- Counter features -->
+                <h1> {{counter}} </h1>
+                <hr>
+                <button v-on:click="incrementCounter" class="btn btn-outline-secondary"> Increment </button>
+                &nbsp;
+                <button v-on:click="decrementCounter" class="btn btn-outline-secondary"> Decreament </button>
+
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col">
+                <my-component></my-component>            
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col">
+                <!-- 
+                    In order to invoke the javascript validation function, we need to use this class 
+                    Need to add the required class="needs-validation" in <form></form>
+                -->
+                <form class="needs-validation mt-5" novalidate>
+                    <text-input required="required" label="First Name" type="text" name="first-name"></text-input>
+                    <text-input required="true" label="Last Name" type="text" name="last-name"></text-input>
+                    <text-input required="required" label="email" type="email" name="email"></text-input>
+                    <hr>
+                    <input type="submit" class="btn btn-primary", value="Save">
+
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- <div id="app2" class="container">
+        <div class="row">
+            <div class="col">
+                {{ message }}
+                {{ fishType }}
+            </div>
+        </div>
+    </div> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.5.30/dist/vue.global.min.js"></script>
+
+    <script> 
+        let data = {
+            message: "Hello, Vue!",
+            // we would need to add things into to data object that is rendered. 
+            fishType: "fishType",
+
+            counter:0,
+        }
+        // cause fish is outside of data object which is rendered in Vue.createApp. 
+        let fish = "Fish"
+
+        /* 
+            Components -> for reusable components
+            1. Define component definition
+            2. Register to Vue.CreateApp
+            3. Render in html
+        */
+        // const MyComponent = {
+        //     props: [],
+        //     template: 
+        //     `
+        //         <h1> My Component </h1>
+
+        //     `
+        // }
+
+        // TextInput component
+        const TextInput = {
+            props: {
+                name: String,
+                type: String,
+                label: String,
+                placeholder: String,
+                required: String,
+                min: String,
+                max: String,
+                value: String,
+            },
+            template: 
+            `
+                <div class="mb-3">
+                    <label :for="name" class="form-label">{{label}}</label>
+                    <input
+                        :type="type"
+                        :name="name"
+                        :placeholders="placeholder"
+                        :required="required"
+                        :min="min"
+                        :max="max"
+                        :value="value"
+                        class="form-control">
+                </div>
+            `
+        }
+
+
+
+
+        const vm = Vue.createApp({
+            data() {
+                return data;
+            },
+            // counter feature
+            methods: {
+                incrementCounter() {
+                    this.counter++;
+                },
+                decrementCounter() {
+                    this.counter--;
+                }
+            },
+            components: {
+                // MyComponent,
+                TextInput,
+            },
+            mounted() {
+                console.log("Mounted");
+                // Once the Vue.app is mounted, this function will fire
+                (function () {
+                'use strict'
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                    })
+                })()
+            },
+            created() {
+                console.log("Created");
+            },
+            updated() {
+                console.log("Updated");
+            }
+        }).mount("#app");
+        // let data2 = {
+        //     message: "Hello, incredibles!",
+        //     fishType: "IRAN 5k"
+        // }
+
+        // // Creating 2 vue instances
+        // const vm2 = Vue.createApp({
+        //     data() {
+        //         return data2;
+        //     }
+        // }).mount("#app2");
+    </script>
+</body>
+
+</html>
