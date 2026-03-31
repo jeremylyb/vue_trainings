@@ -1,3 +1,15 @@
+<!-- 
+ 
+4. Page — AppLogin.vue
+This is one of the routed pages. Its responsibilities are:
+
+Owns the data — email and password live here as reactive state
+Uses v-model on the inputs to keep state in sync (two-way binding)
+Defines submitHandler — what happens on a valid form submission (currently just a console log, but this is where you'd call your backend)
+It delegates form rendering and validation logic to child components 
+
+-->
+
 <template>
     <div class="container">
         <div class="row">
@@ -66,6 +78,25 @@ export default {
     methods: {
         submitHandler() {
             console.log("submitHandler called - success!")
+
+            // integrating with backend
+            const payload = {
+                email: this.email,
+                password: this.password,
+            }
+            const requestOptions = {
+                method: "POST",
+                body: JSON.stringify(payload),
+            }
+            fetch("http://localhost:8081/users/login", requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    console.log("Error:", data.message);
+                } else {
+                    console.log(data)
+                }
+            })
         }
     }//,
     // Since we already encapsulate the bootstrap validation in FormTag component, we do not need to do another validation here in AppLogin.vue

@@ -1,0 +1,23 @@
+services:
+  # ── Database ─────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine        # lightweight postgres 16 image
+    ports:
+      - "5432:5432"
+    restart: always                  # restart if it crashes
+    environment:
+      POSTGRES_USER: postgres        # creates this user on first start
+      POSTGRES_PASSWORD: password    # sets password for postgres user
+      POSTGRES_DB: vue_app_api  # creates this database on first start
+    volumes:
+      - ./db-data/postgres/:/var/lib/postgresql/data          # persist DB data to named volume
+      - ./internal/schema/schema.sql:/docker-entrypoint-initdb.d/init.sql  # ← point to schema.sql
+
+  # --------------- Mailhog --------------------------------
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    restart: always
+

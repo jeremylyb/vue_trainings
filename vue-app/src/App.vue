@@ -1,15 +1,15 @@
+
+<!-- 
+
+2. Shell — App.vue
+This is the persistent layout wrapper. It always shows Header and Footer, and the middle <router-view> acts as a dynamic slot — 
+it swaps in whatever page component matches the current URL. So the header/footer never re-render on navigation, only the middle content changes. 
+
+-->
+
 <template>
-  <!-- <div class="container">
-    <div class="row">
-      <div class="col">
-        <h1>My App</h1>
-          <h2>I am Part of this tag</h2>
-      </div>
-    </div>
-  </div> -->
   <div>
     <Header />
-    <!-- <Body /> -->
     <div>
         <router-view></router-view>
     </div>
